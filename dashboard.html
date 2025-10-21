@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>مدرسۃ المدینہ ڈیش بورڈ</title>
+  <style>
+    /* Nested Submenu (for Final Exam) */
+    .inner-submenu {
+      background: #d0d0d0;
+      margin-right: 10px;
+      border-right: 2px solid #aaa;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .inner-submenu.open {
+      max-height: 400px;
+    }
+
+    .inner-submenu li a {
+      padding: 8px 35px;
+      color: #000;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+      direction: rtl;
+      background: #eeefef;
+    }
+
+    /* Layout */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      /* 🔹 fixed height removed (so it can expand naturally) */
+      transition: all 0.3s ease;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background: #909393;
+      color: #fff;
+      padding: 10px;
+      box-shadow: 5px 0 5px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      /* 🔹 changed from auto to hidden */
+      transition: width 0.3s ease, all 0.3s ease;
+    }
+
+    .sidebar.expanded {
+      height: auto;
+      /* 🔹 sidebar expands dynamically */
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+      overflow: hidden;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #000;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .sidebar h2 img {
+      width: 25px;
+      height: 25px;
+      filter: invert(1);
+    }
+
+    /* Menu List */
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-list li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dropdown-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      padding: 10px 12px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .dropdown-toggle:hover {
+      background-color: #7d7f7f;
+    }
+
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      background: #b2b3b3;
+      transition: max-height 0.4s ease;
+    }
+
+    .submenu.open {
+      max-height: 800px;
+      /* 🔹 Increased to allow long submenus */
+    }
+
+    .submenu li a {
+      display: block;
+      padding: 8px 25px;
+      color: #000;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .submenu li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .icon-angle-down {
+      transition: transform 0.3s ease;
+    }
+
+    .rotate {
+      transform: rotate(180deg);
+    }
+
+    /* Collapse Button */
+    .collapse-btn {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #e4e0e0;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      transition: all 0.3s ease;
+    }
+
+    .collapse-btn:hover {
+      background: #8df0b9;
+    }
+
+    .collapse-btn img {
+      width: 18px;
+      height: 18px;
+      filter: invert(0.4);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+
+    .main-content h2 {
+      color: #065f3d;
+      border-bottom: 2px solid #0d0e0d;
+      padding-bottom: 5px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <h2>
+        <img src="https://pic.onlinewebfonts.com/thumbnails/icons_263128.svg" alt="icon">
+        Menu
+      </h2>
+
+      <ul class="nav-list">
+
+        <!-- ایڈمن -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown(this)">
+            <i class="icon-list"></i>
+            <span class="menu-text"> ایڈمن </span>
+            <b class="arrow icon-angle-down">▼</b>
+          </a>
+          <ul class="submenu">
+            <li><a href="user.html">یوزر</a></li>
+          </ul>
+        </li>
+
+        <!-- بنیادی سیٹ اپ -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown(this)">
+            <i class="icon-list"></i>
+            <span class="menu-text"> بنیادی سیٹ اپ </span>
+            <b class="arrow icon-angle-down">▼</b>
+          </a>
+          <ul class="submenu">
+            <li><a href="soba.html">صوبہ</a></li>
+            <li><a href="dist.html">شہر</a></li>
+            <li><a href="#">ریجن</a></li>
+            <li><a href="#">ڈویژن</a></li>
+            <li><a href="#">کابینہ</a></li>
+            <li><a href="#">مدرسۃ شاخ</a></li>
+            <li><a href="#">مدنی عملہ</a></li>
+          </ul>
+        </li>
+
+        <!-- طلباء اندراج -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown(this)">
+            <i class="icon-list"></i>
+            <span class="menu-text"> طلباء اندراج </span>
+            <b class="arrow icon-angle-down">▼</b>
+          </a>
+
+          <ul class="submenu">
+            <!-- داخلہ فارم -->
+            <li><a href="student-form.html">داخلہ فارم</a></li>
+
+            <!-- فائنل امتحان (nested dropdown) -->
+            <li>
+              <a href="#" class="dropdown-toggle" onclick="toggleSubDropdown(this)">
+                <span class="menu-text"> فائنل امتحان </span>
+                <b class="arrow icon-angle-down"></b>
+              </a>
+
+              <ul class="submenu inner-submenu">
+                <li><a href="nazra form.html">ناظرہ فارم</a></li>
+                <li><a href="#">حفظ فارم</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+
+        <!-- رپورٹس -->
+        <li>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown(this)">
+            <i class="icon-list"></i>
+            <span class="menu-text"> رپورٹس </span>
+            <b class="arrow icon-angle-down">▼</b>
+          </a>
+          <ul class="submenu">
+            <li><a href="#">سالانہ رپورٹ</a></li>
+            <li><a href="#" onclick="logout()">🔒 لاگ آؤٹ</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Collapse Button -->
+      <div class="collapse-btn" onclick="toggleSidebar()">
+        <img src="https://pic.onlinewebfonts.com/thumbnails/icons_657590.svg" alt="collapse">
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <h2>خوش آمدید!</h2>
+      <p>یہاں آپ مدرسۃ المدینہ کے مختلف آپشنز دیکھ سکتے ہیں۔</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown(element) {
+      const li = element.parentElement;
+      const submenu = li.querySelector(".submenu");
+      const arrow = element.querySelector(".icon-angle-down");
+      const sidebar = document.getElementById("sidebar");
+      const isOpen = submenu.classList.contains("open");
+
+      // بند کرو باقی سب menu
+      document.querySelectorAll(".submenu").forEach(menu => menu.classList.remove("open"));
+      document.querySelectorAll(".icon-angle-down").forEach(a => a.classList.remove("rotate"));
+
+      // toggle current menu
+      if (!isOpen) {
+        submenu.classList.add("open");
+        arrow.classList.add("rotate");
+
+        // 🔹 Sidebar height dynamically adjust کرے
+        sidebar.style.height = sidebar.scrollHeight + "px";
+      } else {
+        submenu.classList.remove("open");
+        arrow.classList.remove("rotate");
+        sidebar.style.height = "auto";
+      }
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "index.html";
+    }
+  </script>
+  <script>
+    function toggleSubDropdown(element) {
+      const submenu = element.nextElementSibling;
+      const arrow = element.querySelector(".icon-angle-down");
+      const isOpen = submenu.classList.contains("open");
+
+      // بند کرو nested menus
+      element.parentElement.parentElement.querySelectorAll(".inner-submenu").forEach(menu => menu.classList.remove("open"));
+      element.parentElement.parentElement.querySelectorAll(".icon-angle-down").forEach(a => a.classList.remove("rotate"));
+
+      // toggle current
+      if (!isOpen) {
+        submenu.classList.add("open");
+        arrow.classList.add("rotate");
+      } else {
+        submenu.classList.remove("open");
+        arrow.classList.remove("rotate");
+      }
+    }
+  </script>
+
+</body>
+
+</html>
